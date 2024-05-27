@@ -1,7 +1,7 @@
 import { Client } from 'pg';
 
 export async function getClient() {
-    const client = new Client("postgres://wzsxsnxg:LHZ9Cv4QoZ1zctxapkOq2ch672-o9UQe@trumpet.db.elephantsql.com/wzsxsnxg");
+    const client = new Client("postgresql://Postgres%20Test_owner:iL1A3HdWpqma@ep-shiny-silence-a48xpwbm.us-east-1.aws.neon.tech/Postgres%20Test?sslmode=require");
     await client.connect();
     return client;
 }
