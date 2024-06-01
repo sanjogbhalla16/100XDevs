@@ -3,7 +3,7 @@ import { Client } from 'pg'
 
 const client = new Client({
 
-    connectionString: "postgres://postgres"
+    connectionString: "postgres://postgres.mhtfauovamvhexrclcdc:C@smos162210@aws-0-ap-south-1.pooler.supabase.com:6543/postgres"
 })
 
 
@@ -22,3 +22,20 @@ async function createUsersTable() {
     console.log(result)
 }
 createUsersTable();
+
+async function createUsersAddressTable() {
+    const result = await client.query(
+        `CREATE TABLE addresses (
+            id SERIAL PRIMARY KEY,
+            user_id INTEGER NOT NULL,
+            city VARCHAR(100) NOT NULL,
+            country VARCHAR(100) NOT NULL,
+            street VARCHAR(255) NOT NULL,
+            pincode VARCHAR(20),
+            created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        );`
+    )
+    console.log(result);
+}
+createUsersAddressTable();

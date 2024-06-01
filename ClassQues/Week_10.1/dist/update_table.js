@@ -9,38 +9,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-//write a function to create a users table in your database
 const pg_1 = require("pg");
 const client = new pg_1.Client({
     connectionString: "postgres://postgres.mhtfauovamvhexrclcdc:C@smos162210@aws-0-ap-south-1.pooler.supabase.com:6543/postgres"
 });
-function createUsersTable() {
+function updateUsersTable(username, email, password) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield client.connect(); //this takes some time to connect
-        const result = yield client.query(`CREATE TABLE Users(
-            id SERIAL PRIMARY KEY,
-            username VARCHAR(50) UNIQUE NOT NULL,
-            email VARCHAR(255) UNIQUE NOT NULL,
-            password VARCHAR(255) NOT NULL,
-            created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-        );`);
-        console.log(result);
+        yield client.connect();
+        const insertQuery = "INSERT INTO users (username , email , password) VALUES ($1 ,$2,$3)";
+        const values = [username, email, password];
+        const result = yield client.query(insertQuery, values);
+        console.log('Insertion success:', result); // Output insertion result
     });
 }
-createUsersTable();
-function createUsersAddressTable() {
+updateUsersTable('username1', 'user1@example.com', 'user_password').catch(console.error);
+function updateUsersAddress(user_id, city, country, street, pincode) {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield client.query(`CREATE TABLE addresses (
-            id SERIAL PRIMARY KEY,
-            user_id INTEGER NOT NULL,
-            city VARCHAR(100) NOT NULL,
-            country VARCHAR(100) NOT NULL,
-            street VARCHAR(255) NOT NULL,
-            pincode VARCHAR(20),
-            created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-        );`);
-        console.log(result);
+        const insertQuery = "INSERT INTO addresses (user_id, city, country, street, pincode) VALUES ($1, $2, $3, $4, $5)";
+        const values = [user_id, city, country, street, pincode];
+        const result = yield client.query(insertQuery, values);
+        console.log('Insertion success:', result);
     });
 }
-createUsersAddressTable();
+updateUsersAddress(1, 'New York', 'USA', '123 Broadway St', '10001').catch(console.error);
