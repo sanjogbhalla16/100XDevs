@@ -1,7 +1,7 @@
 import { Client } from "pg";
 
 const client = new Client({
-    connectionString: "postgres://postgres.mhtfauovamvhexrclcdc:C@smos162210@aws-0-ap-south-1.pooler.supabase.com:6543/postgres"
+    connectionString: "postgres://postgres"
 })
 
 async function getUserTableData(email: string) {

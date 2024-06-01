@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const pg_1 = require("pg");
 const client = new pg_1.Client({
-    connectionString: "postgres://postgres.mhtfauovamvhexrclcdc:C@smos162210@aws-0-ap-south-1.pooler.supabase.com:6543/postgres"
+    connectionString: "postgres://postgres"
 });
 function getUserTableData(email) {
     return __awaiter(this, void 0, void 0, function* () {
