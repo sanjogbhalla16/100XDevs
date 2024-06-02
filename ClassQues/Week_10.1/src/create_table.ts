@@ -12,7 +12,7 @@ async function createUsersTable() {
     await client.connect();//this takes some time to connect
     const result = await client.query(
         `CREATE TABLE Users(
-            id SERIAL PRIMARY KEY,
+            id SERIAL PRIMARY KEY, 
             username VARCHAR(50) UNIQUE NOT NULL,
             email VARCHAR(255) UNIQUE NOT NULL,
             password VARCHAR(255) NOT NULL,
