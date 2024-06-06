@@ -22,6 +22,6 @@ async function updateUser(username: string, {
 }
 
 updateUser("admin1", {
-    firstName: "new name",
-    lastName: "singh"
+    firstName: "bhalla",
+    lastName: "ji"
 })
