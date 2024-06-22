@@ -5,7 +5,8 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-1.1.x"]
 }
 
 datasource db {
@@ -20,6 +21,8 @@ model User {
   password  String
   firstName String?
   lastName  String?
+  email     String?
+  todos     Todos[]
 }
 
 model Todos {
@@ -28,4 +31,5 @@ model Todos {
   description String
   done        Boolean @default(false)
   userId      Int
+  User        User    @relation(fields: [userId], references: [id])
 }
