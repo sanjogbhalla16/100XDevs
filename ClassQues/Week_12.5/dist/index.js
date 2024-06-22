@@ -46,14 +46,51 @@ const prisma = new client_1.PrismaClient();
 //     lastName: "Gupta Ji"
 // })
 //Get all the data from the table
-function getUser(username) {
+// async function getUser(username: string) {
+//     const user = await prisma.user.findFirst({
+//         where: {
+//             username: username
+//         }
+//     })
+//     console.log(user);
+// }
+// getUser("bhallaJi_16");
+//create todo also
+// async function createTodo(userId: number, title: string, description: string) {
+//     const response = await prisma.todos.create({
+//         data: {
+//             userId,
+//             title,
+//             description
+//         }
+//     })
+//     console.log(response);
+// }
+// createTodo(3, "go to play", "go to the playground and play football");
+//get the data from todos
+// async function getTodos(userId: number) {
+//     const response = await prisma.todos.findFirst({
+//         where: {
+//             userId: userId
+//         }
+//     })
+//     console.log(response);
+// }
+// getTodos(1);
+//get the user details and the todo details
+function getTodosAndUserDetails(userId) {
     return __awaiter(this, void 0, void 0, function* () {
-        const user = yield prisma.user.findFirst({
+        const todos = yield prisma.todos.findMany({
             where: {
-                username: username
+                userId: userId,
+            },
+            select: {
+                User: true,
+                title: true,
+                description: true
             }
         });
-        console.log(user);
+        console.log(todos);
     });
 }
-getUser("bhallaJi_16");
+getTodosAndUserDetails(1);
