@@ -1,25 +1,27 @@
-import { Hono } from 'hono'
+import { Hono } from 'hono';
 
-const app = new Hono()
+// Create the main Hono app
+const app = new Hono();
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
+app.post('/api/v1/signup', (c) => {
+  return c.text('signup route')
 })
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
+app.post('/api/v1/signin', (c) => {
+  return c.text('signin route')
 })
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
+app.get('/api/v1/blog/:id', (c) => {
+  return c.text('id route');
 })
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
+app.post('/api/v1/blog', (c) => {
+
+  return c.text('signin route')
 })
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
+app.put('/api/v1/blog', (c) => {
+  return c.text('signin route')
 })
 
-export default app
+export default app;
