@@ -1,8 +1,7 @@
-import { Hono } from 'hono';
-import { PrismaClient } from '@prisma/client/edge';
-import { withAccelerate } from '@prisma/extension-accelerate';
-import { verify } from 'hono/jwt';
-
+import { PrismaClient } from "@prisma/client/edge";
+import { withAccelerate } from "@prisma/extension-accelerate";
+import { Hono } from "hono";
+import { verify } from "hono/jwt";
 
 export const blogRouter = new Hono<{
     Bindings: {
@@ -20,20 +19,26 @@ export const blogRouter = new Hono<{
 //check if the user has access and they are logged in or not
 //if the above then get the userId and pass it to authorId: '1'
 //we use set()/get()
-blogRouter.use('/message/*', async (c, next) => {
-    const authHeader = c.req.header("authentication") || "";
-    const user = await verify(authHeader, c.env.JWT_SECRET);
-    if (user) {
-        c.set("userId", user.id);
-        next();
-    }
-    else {
+blogRouter.use("/*", async (c, next) => {
+    const authHeader = c.req.header("authorization") || "";
+    try {
+        const user = await verify(authHeader, c.env.JWT_SECRET);
+        if (user) {
+            c.set("userId", user.id);
+            await next();
+        } else {
+            c.status(403);
+            return c.json({
+                message: "You are not logged in"
+            })
+        }
+    } catch (e) {
         c.status(403);
         return c.json({
-            message: "You are not logged In"
+            message: "You are not logged in"
         })
     }
-})
+});
 
 
 //create a blog
