@@ -54,7 +54,7 @@ blogRouter.post('/', async (c) => {
         data: {
             title: body.title,
             content: body.content,
-            authorId: '1' //this extraction will happen in the middleware
+            authorId: '1' //this extraction will happen in the middleware from above
         }
     })
     return c.json({
