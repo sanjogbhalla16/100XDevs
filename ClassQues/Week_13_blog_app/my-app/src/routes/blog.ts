@@ -21,10 +21,8 @@ export const blogRouter = new Hono<{
 //we use set()/get()
 blogRouter.use("/*", async (c, next) => {
     const authHeader = c.req.header("authorization") || "";
-    console.log(c.req.header);
-
     try {
-        const user = await verify(authHeader, c.env.JWT_SECRET);
+        const user: { id: string } = await verify(authHeader, c.env.JWT_SECRET) as { id: string };
         if (user) {
             c.set("userId", user.id);
             await next();
@@ -42,7 +40,6 @@ blogRouter.use("/*", async (c, next) => {
     }
 });
 
-
 //create a blog
 blogRouter.post('/', async (c) => {
     //get the body first
@@ -56,7 +53,7 @@ blogRouter.post('/', async (c) => {
         data: {
             title: body.title,
             content: body.content,
-            authorId: "1" //this extraction will happen in the middleware from above
+            authorId: Number(authorId) //this extraction will happen in the middleware from above
         }
     })
     return c.json({
