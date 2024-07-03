@@ -13,10 +13,10 @@ export const userRouter = new Hono<{
 userRouter.post('/signup', async (c) => {
     //because body will come out as a jason object
     //JWT authentication
-    const body = await c.req.json();
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate())
+    const body = await c.req.json();
 
     try {
         const user = await prisma.user.create({
@@ -28,19 +28,19 @@ userRouter.post('/signup', async (c) => {
         const jwt = await sign({
             id: user.id
         }, c.env.JWT_SECRET)
-        return c.text(jwt)
+        return c.json({ jwt })
     } catch (error) {
         console.log(error);
         c.status(411);
-        return c.text("This User is already signed in")
+        return c.json({ error: "This User is already signed in" })
     }
 })
 
 userRouter.post('/signin', async (c) => {
-    const body = await c.req.json();
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate())
+    const body = await c.req.json();
 
     try {
         const user = await prisma.user.findFirst({
@@ -51,16 +51,16 @@ userRouter.post('/signin', async (c) => {
         })
         if (!user) {
             c.status(403);//unauthorized
-            return c.text("User does not exist")
+            return c.json({ message: "User does not exist" })
         }
         const jwt = await sign({
             id: user.id
         }, c.env.JWT_SECRET)
-        return c.text(jwt)
+        return c.json({ jwt })
     } catch (error) {
         console.log(error);
         c.status(411);
-        return c.text("This User is already signed in")
+        return c.json({ error: "This User is already signed in" })
     }
 })
 
